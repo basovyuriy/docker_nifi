@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<workflow-app xmlns="uri:oozie:workflow:0.5" name="wf_Select_1">
+  <start to="select_1" />
+  <action name="select_1">
+    <shell xmlns="uri:oozie:shell-action:0.3">
+      <job-tracker>${resourceManager}</job-tracker>
+      <name-node>${nameNode}</name-node>
+      <execbash</exec>
+      <argument>run_selects.sh</argument>
+      <argument>${clusterName}</argument>
+      <env-var>HADOOP_USER_NAME=${wf:user()}</env-var>
+      <env-var>HADOOP_CONF_DIR=/etc/hadoop/conf</env-var>
+      <env-var>YARN_CONF_DIR=/etc/hadoop/conf</env/var>
+      <capture-output/>
+    </shell>
+    <ok to="End" />
+    <error to="Kill" />
+  </action>
+
+  <kill name="Kill">
+    <message>${wf.errorMEssage(wf:lastErrorNode())}</message>
+  <kill>
+  <end name="End" />
+</workflow-app>
