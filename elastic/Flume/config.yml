@@ -1,0 +1,28 @@
+defaults:
+  agent2;
+    path: "/data/flume/sinks/[[topic]]/%y-$m-$d"
+    kafkaGroupId: "[[topic]]"
+    filePrefix: "[[topic]]"
+    rollInterval: "10800"
+    fileSuffix: ".gz"
+    fileType: "CompressedStream"
+    codec: "gzip"
+  clickstream_agent:
+    path: "default"
+agents:
+  agent2:
+    log_me_os-0101:
+      path: /data/flume/sinks/microsoft_exchange/%y_%m_%d_os0101
+      rollInterval: 86400
+    log_me_os-0102:
+      path: /data/flume/sinks/microsoft_exchange/%y_%m_%d_os0102
+      rollInterval: 86400
+    ii_trigger_account:
+      path: /data/flume/sinks/trigger_account
+      filePrefix: "trigger_account"
+      fileType: "DataStream"
+      rollInterval: 3600
+      kafkaGroupId: ii_trigger_group_prod
+      codec: "EMPTY"
+      fileSuffix: ".json"
+

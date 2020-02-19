@@ -1,0 +1,57 @@
+input {
+  file {
+    path => "[[mounts]/[[inputs]]/*/filebeat*.log"
+  }
+}
+filter {
+  grok {
+    match => { "message" => ".*OS-0101.*" }
+    add_field => { "os-name" => "os-0101"}
+  }
+  grok {
+    match => { "message" => ".*OS-0102.*" }
+    add_field => { "os-name" => "os-0102"}
+  }
+  grok {
+    match => { "message" => ".*OS-0103.*" }
+    add_field => { "os-name" => "os-0103"}
+  }
+  grok {
+    match => { "message" => ".*OS-0104.*" }
+    add_field => { "os-name" => "os-0104"}
+  }
+}
+output {
+  if "%{os-name}" == "os-0101" {
+    kafka {
+      codec => plain { format => "%{message}" }
+      topic_id => "error_log_me_os-0101"
+      bootstrap_servers => "[[brokers]]"
+    }
+  }
+  else {
+    if "%{os-name}" == "os-0102" {
+      
+      kafka {
+        codec => plain { format => "%{message}" }
+        topic_id => "error_log_me_os-0102"
+        bootstrap_servers => "[[brokers]]"
+      }
+    }
+    else {
+      if "%{os-name}" == "os-0103" {
+       kafka {
+        codec => plain { format => "%{message}" }
+        topic_id => "error_log_me_os-0103"
+        bootstrap_servers => "[[brokers]]"
+      }
+    }
+    else {
+      if "%{os-name}" == "os-0104" {
+       kafka {
+        codec => plain { format => "%{message}" }
+        topic_id => "error_log_me_os-0104"
+        bootstrap_servers => "[[brokers]]"
+    }
+  }
+} 
